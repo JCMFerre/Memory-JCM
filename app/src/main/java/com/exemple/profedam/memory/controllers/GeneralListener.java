@@ -15,6 +15,7 @@ public class GeneralListener implements AdapterView.OnItemClickListener, Runnabl
 
     private ActivityJuego tauler;
     private Carta cartaOnClick;
+    private int contadorPulsados = 0;
     private boolean listenerActive = true;
 
 
@@ -27,13 +28,16 @@ public class GeneralListener implements AdapterView.OnItemClickListener, Runnabl
         // Solo procesamos clicks si el listener es activo
 
         if (listenerActive) {
-
+            contadorPulsados++;
             Toast.makeText(tauler, "position" + position, Toast.LENGTH_LONG).show();
             // view.setVisibility(View.INVISIBLE);
 
             cartaOnClick = tauler.getPartida().getLlistaCartes().get(position);
             cartaOnClick.girar();
-            this.listenerActive = false;
+            if (contadorPulsados == 2) {
+                this.listenerActive = false;
+                contadorPulsados = 0;
+            }
             tauler.refrescarTablero();
             Handler delay = new Handler();
             delay.postDelayed(this, 2000);
