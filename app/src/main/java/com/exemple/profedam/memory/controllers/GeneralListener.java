@@ -1,6 +1,5 @@
 package com.exemple.profedam.memory.controllers;
 
-import android.content.Intent;
 import android.os.Handler;
 import android.view.View;
 import android.widget.AdapterView;
@@ -14,18 +13,18 @@ import com.exemple.profedam.memory.model.Carta;
  */
 public class GeneralListener implements AdapterView.OnItemClickListener, Runnable {
 
-    private MainActivity tauler;
+    private ActivityJuego tauler;
     private Carta cartaOnClick;
     private boolean listenerActive = true;
 
 
-    public GeneralListener(MainActivity tauler) {
+    public GeneralListener(ActivityJuego tauler) {
         this.tauler = tauler;
     }
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-            // Solo procesamos clicks si el listener es activo
+        // Solo procesamos clicks si el listener es activo
 
         if (listenerActive) {
 
@@ -41,7 +40,7 @@ public class GeneralListener implements AdapterView.OnItemClickListener, Runnabl
 
         }
 
-            }
+    }
 
 
     @Override

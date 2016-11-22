@@ -7,24 +7,6 @@
     android:orientation="vertical"
     tools:context=".controllers.MainActivity">
 
-    <TextView
-        android:id="@+id/textTimeLeft"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:gravity="center"
-        android:text="Medium Text"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <GridView
-        android:id="@+id/gridViewMemory"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentEnd="true"
-        android:numColumns="4"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/textTimeLeft"
-        android:choiceMode="singleChoice" />
 
 </RelativeLayout>
