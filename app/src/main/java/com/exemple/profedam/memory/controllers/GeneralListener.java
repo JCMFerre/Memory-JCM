@@ -7,26 +7,34 @@ import android.widget.Toast;
 
 import com.exemple.profedam.memory.model.Carta;
 
+import java.util.ArrayList;
+
 
 /**
  * Created by ALUMNEDAM on 02/02/2016.
  */
 public class GeneralListener implements AdapterView.OnItemClickListener, Runnable {
 
-    private ActivityJuego tauler;
+    private JuegoActivity tauler;
+    private boolean juegoNoIniciado = true;
     private Carta cartaOnClick;
     private int contadorPulsados = 0;
     private boolean listenerActive = true;
+    private ArrayList<Carta> cartasFixed = new ArrayList<Carta>();
 
 
-    public GeneralListener(ActivityJuego tauler) {
+    public GeneralListener(JuegoActivity tauler) {
         this.tauler = tauler;
     }
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
         // Solo procesamos clicks si el listener es activo
-
+        if (juegoNoIniciado) {
+            tauler.iniciarContador();
+            juegoNoIniciado = false;
+        }
+        Toast.makeText(tauler, "ENTRA", Toast.LENGTH_SHORT).show();
         if (listenerActive) {
             contadorPulsados++;
             Toast.makeText(tauler, "position" + position, Toast.LENGTH_LONG).show();

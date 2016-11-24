@@ -1,19 +1,21 @@
 package com.exemple.profedam.memory.controllers;
 
+import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.widget.GridView;
 
 import com.exemple.profedam.memory.R;
 import com.exemple.profedam.memory.model.Partida;
 
-public class ActivityJuego extends AppCompatActivity {
+public class JuegoActivity extends AppCompatActivity {
 
     private GridView gv;
     private Partida partida;
     private ImageAdapter adapter;
     private CountDownTimer timer;
+    private int segundos;
+    private final int SEGUNDO_EN_MILIS = 1000;
 
 
     public GridView getGv() {
@@ -37,23 +39,19 @@ public class ActivityJuego extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_juego);
         gv = (GridView) findViewById(R.id.gridViewMemory);
-        //TODO este 12 hay que calcularlo de alguna manera
         partida = new Partida(12);
-        // timer = new Timer(2000, (TextView) findViewById(R.id.textTimeLeft));
-
         adapter = new ImageAdapter(this, partida);
-        GeneralListener listener = new GeneralListener(this);
+        // CAMBIAR
+        segundos = 10;
         gv.setAdapter(adapter);
-        gv.setOnItemClickListener(listener);
-
-        /*gv.setOnItemClickListener(new OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                Toast.makeText(TaulerActivity.this, "" + position, Toast.LENGTH_SHORT).show();
-            }
-        });*/
+        gv.setOnItemClickListener(new GeneralListener(this));
     }
-    public void refrescarTablero ()
-    {
+
+    public void iniciarContador() {
+        new Contador(this, segundos * SEGUNDO_EN_MILIS, SEGUNDO_EN_MILIS).start();
+    }
+
+    public void refrescarTablero() {
         gv.setAdapter(adapter);
         gv.refreshDrawableState();
     }

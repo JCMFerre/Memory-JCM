@@ -8,7 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.exemple.profedam.memory.controllers.ActivityJuego">
+    tools:context="com.exemple.profedam.memory.controllers.JuegoActivity">
 
     <TextView
         android:id="@+id/textTimeLeft"
@@ -17,10 +17,11 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:gravity="center"
-        android:text="Medium Text"
+        android:text="@string/txtView_juego_inicial"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <GridView
+        android:paddingTop="16dp"
         android:id="@+id/gridViewMemory"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

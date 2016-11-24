@@ -21,12 +21,8 @@ public class ImageAdapter extends BaseAdapter {
 
 
     public ImageAdapter(Context c, Partida p) {
-
         mContext = c;
         partida = p;
-
-
-
     }
 
 
