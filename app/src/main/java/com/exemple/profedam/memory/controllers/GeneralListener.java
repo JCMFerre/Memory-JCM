@@ -3,6 +3,7 @@ package com.exemple.profedam.memory.controllers;
 import android.os.Handler;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Toast;
 
 import com.exemple.profedam.memory.model.Carta;
 
@@ -30,27 +31,27 @@ public class GeneralListener implements AdapterView.OnItemClickListener {
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
         comprobarJuegoIniciado();
         Carta cartaSeleccionada = tauler.getPartida().getLlistaCartes().get(position);
-        if (cartasSeleccionadas.size() != 2 && cartaSeleccionada.getEstat() != Carta.Estat.FIXED) {
-            posicionesSeleccionadas.add(position);
+        if (cartasSeleccionadas.size() != 2 && cartaSeleccionada.getEstat() == Carta.Estat.BACK) {
             cartasSeleccionadas.add(cartaSeleccionada);
             cartaSeleccionada.girar();
             refrescarTablero();
             lanzarHandler(cartaSeleccionada);
             if (cartasSeleccionadas.size() == 2) {
-                comprobacionCartas();
+                comprobarCartas();
             }
         }
         if (jocIsFinalitzat()) {
             tauler.cancelarContador();
         }
-
     }
 
-    private void comprobacionCartas() {
+    private void comprobarCartas() {
         if (cartasSeleccionadas.get(0).getFrontImage() == cartasSeleccionadas.get(1).getFrontImage()) {
             ponerCartasFixed();
+            limpiarLista();
+        } else {
+            Toast.makeText(tauler, "Pareja erronea", Toast.LENGTH_SHORT).show();
         }
-        limpiarListas();
     }
 
     private boolean jocIsFinalitzat() {
@@ -72,9 +73,8 @@ public class GeneralListener implements AdapterView.OnItemClickListener {
         }
     }
 
-    private void limpiarListas() {
+    private void limpiarLista() {
         cartasSeleccionadas.clear();
-        posicionesSeleccionadas.clear();
     }
 
     private void refrescarTablero() {
@@ -92,9 +92,9 @@ public class GeneralListener implements AdapterView.OnItemClickListener {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                cartaActual.girar();
-                refrescarTablero();
                 if (cartasSeleccionadas.contains(cartaActual)) {
+                    cartaActual.girar();
+                    refrescarTablero();
                     cartasSeleccionadas.remove(cartasSeleccionadas.indexOf(cartaActual));
                 }
             }
