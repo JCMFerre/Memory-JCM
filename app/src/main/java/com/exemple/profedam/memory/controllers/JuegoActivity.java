@@ -1,7 +1,6 @@
 package com.exemple.profedam.memory.controllers;
 
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.GridView;
 
@@ -13,7 +12,7 @@ public class JuegoActivity extends AppCompatActivity {
     private GridView gv;
     private Partida partida;
     private ImageAdapter adapter;
-    private CountDownTimer timer;
+    private Contador timer;
     private int segundos;
     private final int SEGUNDO_EN_MILIS = 1000;
 
@@ -38,17 +37,24 @@ public class JuegoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_juego);
-        gv = (GridView) findViewById(R.id.gridViewMemory);
-        partida = new Partida(12);
-        adapter = new ImageAdapter(this, partida);
-        // CAMBIAR
-        segundos = 10;
-        gv.setAdapter(adapter);
-        gv.setOnItemClickListener(new GeneralListener(this));
+        if (savedInstanceState == null) {
+            gv = (GridView) findViewById(R.id.gridViewMemory);
+            partida = new Partida(12);
+            adapter = new ImageAdapter(this, partida);
+            // CAMBIAR
+            segundos = 20;
+            gv.setAdapter(adapter);
+            gv.setOnItemClickListener(new GeneralListener(this));
+        }
     }
 
     public void iniciarContador() {
-        new Contador(this, segundos * SEGUNDO_EN_MILIS, SEGUNDO_EN_MILIS).start();
+        timer = new Contador(this, segundos * SEGUNDO_EN_MILIS, SEGUNDO_EN_MILIS);
+        timer.start();
+    }
+
+    public void cancelarContador() {
+        timer.cancel();
     }
 
     public void refrescarTablero() {
