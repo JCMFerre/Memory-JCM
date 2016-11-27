@@ -6,9 +6,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.exemple.profedam.memory.R;
+import com.exemple.profedam.memory.model.Configuracion;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -46,13 +46,21 @@ public class MainActivity extends AppCompatActivity {
         (findViewById(R.id.botonIniciar)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Toast.makeText(MainActivity.this, "Dificultad: "+spinnerDificultad.getSelectedItemPosition()+"\n" +
-                  //      "Tema: " + spinnerTemas.getSelectedItemPosition(), Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(MainActivity.this, JuegoActivity.class));
+                Intent i = new Intent(MainActivity.this, JuegoActivity.class);
+                int dificultad = spinnerDificultad.getSelectedItemPosition();
+                int numCartas = dificultad * 6;
+                double tiempoCarta = (double) 3 / dificultad;
+                int tiempoPartida = (int) (((numCartas / 2) * tiempoCarta) * (6 - dificultad));
+                i.putExtra("config", new Configuracion(numCartas,
+                        tiempoPartida, tiempoCarta, getImagenBack()[spinnerTemas.getSelectedItemPosition()]));
+                startActivity(i);
             }
         });
     }
 
+    public int[] getImagenBack() {
+        return new int[]{R.drawable.back, R.drawable.back_frozen, R.drawable.back_paw, R.drawable.back_bob};
+    }
 }
 
 

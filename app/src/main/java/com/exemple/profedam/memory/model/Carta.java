@@ -18,10 +18,10 @@ public class Carta {
     private int frontImage;
     private Estat estat;
 
-    public Carta(int frontImage) {
+    public Carta(int frontImage, int backImage) {
         this.frontImage = frontImage;
         this.estat = Estat.BACK;
-        backImage = assignarDorso();
+        this.backImage = backImage;
     }
 
     private int assignarDorso() {

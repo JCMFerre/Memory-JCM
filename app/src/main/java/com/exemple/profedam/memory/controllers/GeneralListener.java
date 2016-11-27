@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import com.exemple.profedam.memory.R;
 import com.exemple.profedam.memory.model.Carta;
+import com.exemple.profedam.memory.model.Configuracion;
 
 import java.util.ArrayList;
 
@@ -105,7 +106,7 @@ public class GeneralListener implements AdapterView.OnItemClickListener, Adapter
                     cartasSeleccionadas.remove(cartasSeleccionadas.indexOf(cartaActual));
                 }
             }
-        }, 2000);
+        }, tauler.getConfigJuego().getTiempoCartaGiradaMilis());
     }
 
     /**
@@ -119,12 +120,10 @@ public class GeneralListener implements AdapterView.OnItemClickListener, Adapter
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         if (parent.getId() == R.id.spinnerTemas) {
-            int[] imagenVista = new int[]{R.drawable.back, R.drawable.back_frozen, R.drawable.back_paw, R.drawable.back_bob};
             ((ImageView) mainActivity.findViewById(R.id.imageView))
-                    .setImageDrawable(mainActivity.getResources().getDrawable(imagenVista[position]));
+                    .setImageDrawable(mainActivity.getResources().getDrawable(mainActivity.getImagenBack()[position]));
         } else {
             mainActivity.findViewById(R.id.botonIniciar).setVisibility((position == 0) ? View.GONE : View.VISIBLE);
-            Toast.makeText(mainActivity, "" + parent.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
         }
     }
 
