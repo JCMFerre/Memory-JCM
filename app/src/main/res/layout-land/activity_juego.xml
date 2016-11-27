@@ -15,12 +15,14 @@
         android:layout_gravity="center"
         android:paddingBottom="16dp"
         android:text="@string/txtView_juego_inicial"
+        android:textAlignment="center"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <GridView
         android:id="@+id/gridViewMemory"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_gravity="center"
         android:choiceMode="singleChoice"
         android:numColumns="7" />
 
