@@ -25,10 +25,17 @@
     <string name="tiempo_finalizado_1">"Parece que se ha acabado el tiempo "</string>
     <string name="tiempo_finalizado_2">...</string>
     <string name="config">Configuración</string>
+    <string name="reset">Se ha reseteado el juego por inactividad.</string>
     <array name="temas">
         <item>(Por defecto)</item>
         <item>Frozen</item>
         <item>Patrulla canina</item>
         <item>Bob esponja</item>
     </array>
+    <string name="txt_num_cartas">Número de cartas: </string>
+    <string name="txt_tiempo_carta">Tiempo giro carta: </string>
+    <string name="txt_tiempo_partida">Tiempo partida: </string>
+    <string name="segundos">segundos.</string>
+    <string name="info_config">Configuración</string>
+    <string name="txt_param_dificultad">Parámetros dificultad</string>
 </resources>

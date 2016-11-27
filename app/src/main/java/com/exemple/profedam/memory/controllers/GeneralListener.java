@@ -4,6 +4,8 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.exemple.profedam.memory.R;
 import com.exemple.profedam.memory.model.Carta;
@@ -18,7 +20,7 @@ public class GeneralListener implements AdapterView.OnItemClickListener, Adapter
 
     boolean bloqueoPareja;
     private JuegoActivity tauler;
-    private boolean juegoNoIniciado = true;
+    private boolean juegoNoIniciado;
     private ArrayList<Carta> cartasSeleccionadas;
     private ArrayList<Integer> posicionesSeleccionadas;
     private MainActivity mainActivity;
@@ -26,6 +28,7 @@ public class GeneralListener implements AdapterView.OnItemClickListener, Adapter
 
     public GeneralListener(JuegoActivity tauler) {
         this.tauler = tauler;
+        juegoNoIniciado = true;
         cartasSeleccionadas = new ArrayList<>();
         posicionesSeleccionadas = new ArrayList<>();
         bloqueoPareja = false;
@@ -141,7 +144,27 @@ public class GeneralListener implements AdapterView.OnItemClickListener, Adapter
                     .setImageDrawable(mainActivity.getResources().getDrawable(mainActivity.getImagenBack()[position]));
         } else {
             mainActivity.findViewById(R.id.botonIniciar).setVisibility((position == 0) ? View.GONE : View.VISIBLE);
+            mostrarTablaDificultades();
         }
+    }
+
+    private void mostrarTablaDificultades() {
+        int dificultad = ((Spinner) mainActivity.findViewById(R.id.spinnerDificultad)).getSelectedItemPosition();
+        mainActivity.findViewById(R.id.tabla_dificultad).setVisibility(dificultad == 0 ? View.GONE : View.VISIBLE);
+        mainActivity.findViewById(R.id.txt_param_dificultad).setVisibility(dificultad == 0 ? View.GONE : View.VISIBLE);
+        if (dificultad != 0) mostrarTxtDificultad(dificultad);
+    }
+
+    private void mostrarTxtDificultad(int dificultad) {
+        int numCartas = mainActivity.getNumCartas(dificultad);
+        double tiempoCarta = mainActivity.getTiempoCarta(dificultad);
+        int tiempoPartida = mainActivity.getTiempoPartida(numCartas, tiempoCarta, dificultad);
+        ((TextView) mainActivity.findViewById(R.id.txt_num_cartas)).setText(mainActivity.getString(R.string.txt_num_cartas)
+                + " " + numCartas);
+        ((TextView) mainActivity.findViewById(R.id.txt_tiempo_carta)).setText(mainActivity.getString(R.string.txt_tiempo_carta)
+                + " " + tiempoCarta + " " + mainActivity.getString(R.string.segundos));
+        ((TextView) mainActivity.findViewById(R.id.txt_tiempo_partida)).setText(mainActivity.getString(R.string.txt_tiempo_partida)
+                + " " + tiempoPartida + " " + mainActivity.getString(R.string.segundos));
     }
 
     @Override

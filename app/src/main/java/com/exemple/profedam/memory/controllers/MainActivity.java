@@ -62,15 +62,15 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private int getTiempoPartida(int numCartas, double tiempoCarta, int dificultad) {
+    public int getTiempoPartida(int numCartas, double tiempoCarta, int dificultad) {
         return (int) (((numCartas / 2) * tiempoCarta) * (6 - dificultad));
     }
 
-    private int getNumCartas(int dificultad) {
+    public int getNumCartas(int dificultad) {
         return dificultad * 6;
     }
 
-    private double getTiempoCarta(int dificultad) {
+    public double getTiempoCarta(int dificultad) {
         return (double) 3 / dificultad;
     }
 

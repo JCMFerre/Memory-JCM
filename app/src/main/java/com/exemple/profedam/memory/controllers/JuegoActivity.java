@@ -5,9 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.view.KeyEvent;
 import android.widget.GridView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.exemple.profedam.memory.R;
 import com.exemple.profedam.memory.model.Configuracion;
@@ -20,6 +20,7 @@ public class JuegoActivity extends AppCompatActivity {
     private ImageAdapter adapter;
     private Contador timer;
     private Configuracion configJuego;
+    private GeneralListener generalListener;
 
     public Configuracion getConfigJuego() {
         return configJuego;
@@ -45,23 +46,29 @@ public class JuegoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_juego);
-        if (savedInstanceState == null) {
-            cargarActivity();
+        cargarActivity();
+        if (savedInstanceState != null && savedInstanceState.getBoolean("reset")) {
+            Toast.makeText(this, R.string.reset, Toast.LENGTH_LONG).show();
         }
     }
 
     private void cargarActivity() {
         ((TextView) findViewById(R.id.textTimeLeft)).setText(getString(R.string.txtView_juego_inicial));
+        generalListener = new GeneralListener(this);
         configJuego = (Configuracion) getIntent().getSerializableExtra("config");
-        gv = (GridView) findViewById(R.id.gridViewMemory);
         partida = new Partida(configJuego.getNumCartas(), configJuego.getCartaBack());
+        timer = new Contador(this, configJuego.getTiempoPartidaMilis(), Configuracion.SEGUNDO_EN_MILIS);
+        cargarGridView();
+    }
+
+    private void cargarGridView() {
         adapter = new ImageAdapter(this, partida);
+        gv = (GridView) findViewById(R.id.gridViewMemory);
         gv.setAdapter(adapter);
-        gv.setOnItemClickListener(new GeneralListener(this));
+        gv.setOnItemClickListener(generalListener);
     }
 
     public void iniciarContador() {
-        timer = new Contador(this, configJuego.getTiempoPartidaMilis(), Configuracion.SEGUNDO_EN_MILIS);
         timer.start();
     }
 
@@ -117,5 +124,11 @@ public class JuegoActivity extends AppCompatActivity {
     public void refrescarTablero() {
         gv.setAdapter(adapter);
         gv.refreshDrawableState();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putBoolean("reset", true);
+        super.onSaveInstanceState(outState);
     }
 }
