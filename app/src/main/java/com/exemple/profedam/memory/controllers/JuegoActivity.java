@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 import android.widget.GridView;
 import android.widget.TextView;
 
@@ -94,6 +95,11 @@ public class JuegoActivity extends AppCompatActivity {
     private void reiniciarAConfig() {
         startActivity(new Intent(this, MainActivity.class));
         finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        reiniciarAConfig();
     }
 
     private void reiniciarActivity() {
