@@ -3,4 +3,19 @@
     <string name="botonMain">Iniciar</string>
     <string name="txtView_juego_inicial">Pulse una carta para empezar la cuenta atrás.</string>
     <string name="txtView_juego_iniciado">Segundos restantes: </string>
+    <string name="txt_dificultad">Dificultad</string>
+    <array name="dificultad">
+        <item>Selecciona una dificultad</item>
+        <item>Fácil</item>
+        <item>Medio</item>
+        <item>Difícil</item>
+        <item>Modo asiático</item>
+    </array>
+    <string name="txt_tema">Tema dorso carta</string>
+    <array name="temas">
+        <item>(Por defecto)</item>
+        <item>Frozen</item>
+        <item>Pratulla canina</item>
+        <item>Bob esponja</item>
+    </array>
 </resources>

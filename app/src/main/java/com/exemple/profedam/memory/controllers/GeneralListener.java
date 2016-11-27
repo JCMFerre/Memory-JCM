@@ -3,8 +3,10 @@ package com.exemple.profedam.memory.controllers;
 import android.os.Handler;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.exemple.profedam.memory.R;
 import com.exemple.profedam.memory.model.Carta;
 
 import java.util.ArrayList;
@@ -13,18 +15,23 @@ import java.util.ArrayList;
 /**
  * Created by ALUMNEDAM on 02/02/2016.
  */
-public class GeneralListener implements AdapterView.OnItemClickListener {
+public class GeneralListener implements AdapterView.OnItemClickListener, AdapterView.OnItemSelectedListener {
 
     private JuegoActivity tauler;
     private boolean juegoNoIniciado = true;
     private ArrayList<Carta> cartasSeleccionadas;
     private ArrayList<Integer> posicionesSeleccionadas;
+    private MainActivity mainActivity;
 
 
     public GeneralListener(JuegoActivity tauler) {
         this.tauler = tauler;
         cartasSeleccionadas = new ArrayList<>();
         posicionesSeleccionadas = new ArrayList<>();
+    }
+
+    public GeneralListener(MainActivity mainActivity) {
+        this.mainActivity = mainActivity;
     }
 
     @Override
@@ -101,5 +108,29 @@ public class GeneralListener implements AdapterView.OnItemClickListener {
         }, 2000);
     }
 
+    /**
+     * Spinner
+     *
+     * @param parent
+     * @param view
+     * @param position
+     * @param id
+     */
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        if (parent.getId() == R.id.spinnerTemas) {
+            int[] imagenVista = new int[]{R.drawable.back, R.drawable.back_frozen, R.drawable.back_paw, R.drawable.back_bob};
+            ((ImageView) mainActivity.findViewById(R.id.imageView))
+                    .setImageDrawable(mainActivity.getResources().getDrawable(imagenVista[position]));
+        } else {
+            mainActivity.findViewById(R.id.botonIniciar).setVisibility((position == 0) ? View.GONE : View.VISIBLE);
+            Toast.makeText(mainActivity, "" + parent.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+        // Obliga a implementarlo
+    }
 }
 

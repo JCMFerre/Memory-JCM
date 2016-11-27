@@ -1,5 +1,8 @@
 package com.exemple.profedam.memory.model;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
 import com.exemple.profedam.memory.R;
 
 /**
@@ -11,13 +14,18 @@ public class Carta {
         BACK, FRONT, FIXED
     }
 
-    private final int backImage = R.drawable.back;
+    private int backImage;
     private int frontImage;
     private Estat estat;
 
     public Carta(int frontImage) {
         this.frontImage = frontImage;
         this.estat = Estat.BACK;
+        backImage = assignarDorso();
+    }
+
+    private int assignarDorso() {
+        return R.drawable.back_frozen;
     }
 
     public int getFrontImage() {
@@ -38,13 +46,11 @@ public class Carta {
                 this.estat = Estat.FRONT;
                 break;
             }
-
             case FRONT: {
                 this.estat = Estat.BACK;
                 break;
             }
         }
-
     }
 
     public int getActive() {
@@ -54,16 +60,12 @@ public class Carta {
                 activeImage = this.backImage;
                 break;
             }
-
             case FRONT:
             case FIXED: {
                 activeImage = this.frontImage;
                 break;
             }
-
-
         }
         return activeImage;
-
     }
 }

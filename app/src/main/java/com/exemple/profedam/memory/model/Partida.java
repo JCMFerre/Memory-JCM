@@ -23,25 +23,15 @@ public class Partida {
     private ArrayList<Carta> llistaCartes;
     private int numeroCartes;
 
-    public Partida(Integer[] totalCartes, ArrayList<Carta> llistaCartes, int numeroCartes) {
-        this.totalCartes = totalCartes;
-        this.llistaCartes = llistaCartes;
-        this.numeroCartes = numeroCartes;
-    }
-
     public Partida(int numeroCartes) {
         this.numeroCartes = numeroCartes;
         List<Integer> llistaTotal = Arrays.asList(totalCartes);
-
-        //TODO rellenar el ArrayList y
-
         Collections.shuffle(llistaTotal);
         llistaCartes = new ArrayList();
         for (int cont = 0; cont < numeroCartes; cont++) {
             llistaCartes.add(new Carta(llistaTotal.get(cont / 2)));
         }
         Collections.shuffle(llistaCartes);
-
     }
 
     public int getNumeroCartes() {
