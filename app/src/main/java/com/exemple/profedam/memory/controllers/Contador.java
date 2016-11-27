@@ -1,7 +1,6 @@
 package com.exemple.profedam.memory.controllers;
 
 import android.os.CountDownTimer;
-import android.widget.GridView;
 import android.widget.TextView;
 
 import com.exemple.profedam.memory.R;
@@ -27,7 +26,8 @@ public class Contador extends CountDownTimer {
 
     @Override
     public void onFinish() {
-        ((TextView) juegoActivity.findViewById(R.id.textTimeLeft)).setText("YA HAS FINALIZADO");
+        ((TextView) juegoActivity.findViewById(R.id.textTimeLeft)).setText(juegoActivity.getString(R.string.dialog_tiempo_finalizado));
         juegoActivity.getGv().setOnItemClickListener(null);
+        juegoActivity.mostrarDialog(true);
     }
 }

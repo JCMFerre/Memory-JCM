@@ -1,7 +1,5 @@
 package com.exemple.profedam.memory.model;
 
-import com.exemple.profedam.memory.controllers.JuegoActivity;
-
 import java.io.Serializable;
 
 /**
@@ -10,17 +8,31 @@ import java.io.Serializable;
 
 public class Configuracion implements Serializable {
 
+    private String nombre;
     private int numCartas;
     private int tiempoPartidaMilis;
     private int tiempoCartaGiradaMilis;
     private int cartaBack;
     public static final int SEGUNDO_EN_MILIS = 1000;
 
-    public Configuracion(int numCartas, int tiempoPartidaSegundos, double tiempoCartaGiradaSegundos, int cartaBack) {
+    public Configuracion(String nombre, int numCartas, int tiempoPartidaSegundos, double tiempoCartaGiradaSegundos, int cartaBack) {
+        this.nombre = nombre;
         this.numCartas = numCartas;
         this.tiempoPartidaMilis = tiempoPartidaSegundos * SEGUNDO_EN_MILIS;
         this.tiempoCartaGiradaMilis = (int) (tiempoCartaGiradaSegundos * SEGUNDO_EN_MILIS);
         this.cartaBack = cartaBack;
+    }
+
+    public Configuracion(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public int getTiempoPartidaMilis() {

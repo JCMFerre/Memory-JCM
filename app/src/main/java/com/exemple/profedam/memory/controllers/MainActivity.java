@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.exemple.profedam.memory.R;
@@ -46,16 +47,41 @@ public class MainActivity extends AppCompatActivity {
         (findViewById(R.id.botonIniciar)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, JuegoActivity.class);
-                int dificultad = spinnerDificultad.getSelectedItemPosition();
-                int numCartas = dificultad * 6;
-                double tiempoCarta = (double) 3 / dificultad;
-                int tiempoPartida = (int) (((numCartas / 2) * tiempoCarta) * (6 - dificultad));
-                i.putExtra("config", new Configuracion(numCartas,
-                        tiempoPartida, tiempoCarta, getImagenBack()[spinnerTemas.getSelectedItemPosition()]));
-                startActivity(i);
+                if (!(validarNombre())) {
+                    Intent i = new Intent(MainActivity.this, JuegoActivity.class);
+                    int dificultad = spinnerDificultad.getSelectedItemPosition();
+                    int numCartas = getNumCartas(dificultad);
+                    double tiempoCarta = getTiempoCarta(dificultad);
+                    int tiempoPartida = getTiempoPartida(numCartas, tiempoCarta, dificultad);
+                    i.putExtra("config", new Configuracion(getNombreEt(), numCartas,
+                            tiempoPartida, tiempoCarta, getImagenBack()[spinnerTemas.getSelectedItemPosition()]));
+                    startActivity(i);
+                    finish();
+                }
             }
         });
+    }
+
+    private int getTiempoPartida(int numCartas, double tiempoCarta, int dificultad) {
+        return (int) (((numCartas / 2) * tiempoCarta) * (6 - dificultad));
+    }
+
+    private int getNumCartas(int dificultad) {
+        return dificultad * 6;
+    }
+
+    private double getTiempoCarta(int dificultad) {
+        return (double) 3 / dificultad;
+    }
+
+    private String getNombreEt() {
+        return ((EditText) findViewById(R.id.et_nombre)).getText().toString();
+    }
+
+    private boolean validarNombre() {
+        boolean comprobacion = getNombreEt().equals("");
+        findViewById(R.id.nombre_error).setVisibility(comprobacion ? View.VISIBLE : View.GONE);
+        return comprobacion;
     }
 
     public int[] getImagenBack() {

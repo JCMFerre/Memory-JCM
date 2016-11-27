@@ -11,6 +11,34 @@
         android:padding="16dp">
 
         <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="8dp"
+            android:text="@string/txt_nombre"
+            android:textSize="12sp" />
+
+        <EditText
+            android:id="@+id/et_nombre"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/et_nombre"
+            android:inputType="textCapSentences|textPersonName"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp" />
+
+        <TextView
+            android:id="@+id/nombre_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="4dp"
+            android:paddingTop="4dp"
+            android:text="@string/txt_error"
+            android:textColor="@color/colorRojoClaro"
+            android:textSize="12sp"
+            android:visibility="gone" />
+
+        <TextView
             android:paddingTop="16dp"
             android:text="@string/txt_dificultad"
             android:layout_width="match_parent"

@@ -12,10 +12,23 @@
         <item>Modo asiático</item>
     </array>
     <string name="txt_tema">Tema dorso carta</string>
+    <string name="dialog_tiempo_finalizado">Se acabó el tiempo...</string>
+    <string name="dialog_ganador">¡Has ganado!</string>
+    <string name="reiniciar">Reiniciar</string>
+    <string name="salir">Salir</string>
+    <string name="dialog_info">¿Deseas volver a la configuración, salir de la aplicación o reiniciar la partida con la configuración actual?</string>
+    <string name="txt_nombre">Nombre (Requerido)</string>
+    <string name="et_nombre">Ej. Adrián</string>
+    <string name="txt_error">Este campo es obligatorio.</string>
+    <string name="ganador_1">"¡Enhorabuena "</string>
+    <string name="ganador_2">", has ganado antes de que finalice el tiempo!"</string>
+    <string name="tiempo_finalizado_1">"Parece que se ha acabado el tiempo "</string>
+    <string name="tiempo_finalizado_2">...</string>
+    <string name="config">Configuración</string>
     <array name="temas">
         <item>(Por defecto)</item>
         <item>Frozen</item>
-        <item>Pratulla canina</item>
+        <item>Patrulla canina</item>
         <item>Bob esponja</item>
     </array>
 </resources>

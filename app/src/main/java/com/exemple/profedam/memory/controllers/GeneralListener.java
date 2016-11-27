@@ -4,11 +4,9 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.exemple.profedam.memory.R;
 import com.exemple.profedam.memory.model.Carta;
-import com.exemple.profedam.memory.model.Configuracion;
 
 import java.util.ArrayList;
 
@@ -18,6 +16,7 @@ import java.util.ArrayList;
  */
 public class GeneralListener implements AdapterView.OnItemClickListener, AdapterView.OnItemSelectedListener {
 
+    boolean bloqueoPareja;
     private JuegoActivity tauler;
     private boolean juegoNoIniciado = true;
     private ArrayList<Carta> cartasSeleccionadas;
@@ -29,6 +28,7 @@ public class GeneralListener implements AdapterView.OnItemClickListener, Adapter
         this.tauler = tauler;
         cartasSeleccionadas = new ArrayList<>();
         posicionesSeleccionadas = new ArrayList<>();
+        bloqueoPareja = false;
     }
 
     public GeneralListener(MainActivity mainActivity) {
@@ -47,19 +47,33 @@ public class GeneralListener implements AdapterView.OnItemClickListener, Adapter
             if (cartasSeleccionadas.size() == 2) {
                 comprobarCartas();
             }
+            if (jocIsFinalitzat()) {
+                tauler.cancelarContador();
+                tauler.mostrarDialog(false);
+            }
         }
-        if (jocIsFinalitzat()) {
-            tauler.cancelarContador();
-        }
+
     }
 
     private void comprobarCartas() {
         if (cartasSeleccionadas.get(0).getFrontImage() == cartasSeleccionadas.get(1).getFrontImage()) {
-            ponerCartasFixed();
+            cambiarEstadoCartas(Carta.Estat.FIXED);
             limpiarLista();
         } else {
-            Toast.makeText(tauler, "Pareja erronea", Toast.LENGTH_SHORT).show();
+            bloqueoPareja = true;
+            ponerCartasBack();
         }
+    }
+
+    private void ponerCartasBack() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                cambiarEstadoCartas(Carta.Estat.BACK);
+                limpiarLista();
+                bloqueoPareja = false;
+            }
+        }, tauler.getConfigJuego().getTiempoCartaGiradaMilis() / 2);
     }
 
     private boolean jocIsFinalitzat() {
@@ -75,10 +89,11 @@ public class GeneralListener implements AdapterView.OnItemClickListener, Adapter
         return comprobacion;
     }
 
-    private void ponerCartasFixed() {
+    private void cambiarEstadoCartas(Carta.Estat estado) {
         for (Carta carta : cartasSeleccionadas) {
-            carta.setEstat(Carta.Estat.FIXED);
+            carta.setEstat(estado);
         }
+        refrescarTablero();
     }
 
     private void limpiarLista() {
@@ -100,10 +115,12 @@ public class GeneralListener implements AdapterView.OnItemClickListener, Adapter
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (cartasSeleccionadas.contains(cartaActual)) {
-                    cartaActual.girar();
-                    refrescarTablero();
-                    cartasSeleccionadas.remove(cartasSeleccionadas.indexOf(cartaActual));
+                if (!bloqueoPareja) {
+                    if (cartasSeleccionadas.contains(cartaActual)) {
+                        cartaActual.girar();
+                        refrescarTablero();
+                        cartasSeleccionadas.remove(cartasSeleccionadas.indexOf(cartaActual));
+                    }
                 }
             }
         }, tauler.getConfigJuego().getTiempoCartaGiradaMilis());
