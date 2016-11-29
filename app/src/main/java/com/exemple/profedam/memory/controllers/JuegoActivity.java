@@ -100,7 +100,7 @@ public class JuegoActivity extends AppCompatActivity {
     }
 
     private void reiniciarAConfig() {
-        startActivity(new Intent(this, MainActivity.class));
+        startActivity(new Intent(this, MainActivity.class).putExtra("configuracion", configJuego));
         finish();
     }
 
@@ -131,4 +131,5 @@ public class JuegoActivity extends AppCompatActivity {
         outState.putBoolean("reset", true);
         super.onSaveInstanceState(outState);
     }
+
 }

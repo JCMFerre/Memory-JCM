@@ -18,20 +18,16 @@ import java.util.ArrayList;
  */
 public class GeneralListener implements AdapterView.OnItemClickListener, AdapterView.OnItemSelectedListener {
 
-    boolean bloqueoPareja;
-    private JuegoActivity tauler;
+    private JuegoActivity juegoActivity;
     private boolean juegoNoIniciado;
     private ArrayList<Carta> cartasSeleccionadas;
-    private ArrayList<Integer> posicionesSeleccionadas;
     private MainActivity mainActivity;
 
 
-    public GeneralListener(JuegoActivity tauler) {
-        this.tauler = tauler;
+    public GeneralListener(JuegoActivity juegoActivity) {
+        this.juegoActivity = juegoActivity;
         juegoNoIniciado = true;
         cartasSeleccionadas = new ArrayList<>();
-        posicionesSeleccionadas = new ArrayList<>();
-        bloqueoPareja = false;
     }
 
     public GeneralListener(MainActivity mainActivity) {
@@ -41,31 +37,35 @@ public class GeneralListener implements AdapterView.OnItemClickListener, Adapter
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
         comprobarJuegoIniciado();
-        Carta cartaSeleccionada = tauler.getPartida().getLlistaCartes().get(position);
+        Carta cartaSeleccionada = juegoActivity.getPartida().getLlistaCartes().get(position);
         if (cartasSeleccionadas.size() != 2 && cartaSeleccionada.getEstat() == Carta.Estat.BACK) {
             cartasSeleccionadas.add(cartaSeleccionada);
             cartaSeleccionada.girar();
             refrescarTablero();
-            lanzarHandler(cartaSeleccionada);
             if (cartasSeleccionadas.size() == 2) {
                 comprobarCartas();
-            }
-            if (jocIsFinalitzat()) {
-                tauler.cancelarContador();
-                tauler.mostrarDialog(false);
+                comprobarJuegoFinalizado();
             }
         }
+    }
 
+    private void comprobarJuegoFinalizado() {
+        if (juegoEsFinalizado()) {
+            juegoActivity.cancelarContador();
+            juegoActivity.mostrarDialog(false);
+        }
     }
 
     private void comprobarCartas() {
-        if (cartasSeleccionadas.get(0).getFrontImage() == cartasSeleccionadas.get(1).getFrontImage()) {
+        if (cartasIguales()) {
             cambiarEstadoCartas(Carta.Estat.FIXED);
-            limpiarLista();
         } else {
-            bloqueoPareja = true;
             ponerCartasBack();
         }
+    }
+
+    private boolean cartasIguales() {
+        return (cartasSeleccionadas.get(0).getFrontImage() == cartasSeleccionadas.get(1).getFrontImage());
     }
 
     private void ponerCartasBack() {
@@ -73,15 +73,13 @@ public class GeneralListener implements AdapterView.OnItemClickListener, Adapter
             @Override
             public void run() {
                 cambiarEstadoCartas(Carta.Estat.BACK);
-                limpiarLista();
-                bloqueoPareja = false;
             }
-        }, tauler.getConfigJuego().getTiempoCartaGiradaMilis() / 2);
+        }, juegoActivity.getConfigJuego().getTiempoCartaGiradaMilis());
     }
 
-    private boolean jocIsFinalitzat() {
+    private boolean juegoEsFinalizado() {
         boolean comprobacion = false;
-        for (Carta carta : tauler.getPartida().getLlistaCartes()) {
+        for (Carta carta : juegoActivity.getPartida().getLlistaCartes()) {
             if (carta.getEstat() == Carta.Estat.FIXED) {
                 comprobacion = true;
             } else {
@@ -96,47 +94,39 @@ public class GeneralListener implements AdapterView.OnItemClickListener, Adapter
         for (Carta carta : cartasSeleccionadas) {
             carta.setEstat(estado);
         }
+        limpiarLista();
         refrescarTablero();
     }
 
+    /**
+     * Limpia la lista de cartas seleccionadas.
+     */
     private void limpiarLista() {
         cartasSeleccionadas.clear();
     }
 
+    /**
+     * Refresca el tablero utilizando el metodo refrescarTablero de juegoActivity.
+     */
     private void refrescarTablero() {
-        tauler.refrescarTablero();
+        juegoActivity.refrescarTablero();
     }
 
+    /**
+     * Comprueba si el juego ha sido iniciado.
+     */
     private void comprobarJuegoIniciado() {
         if (juegoNoIniciado) {
-            tauler.iniciarContador();
+            juegoActivity.iniciarContador();
             juegoNoIniciado = false;
         }
     }
 
-    private void lanzarHandler(final Carta cartaActual) {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (!bloqueoPareja) {
-                    if (cartasSeleccionadas.contains(cartaActual)) {
-                        cartaActual.girar();
-                        refrescarTablero();
-                        cartasSeleccionadas.remove(cartasSeleccionadas.indexOf(cartaActual));
-                    }
-                }
-            }
-        }, tauler.getConfigJuego().getTiempoCartaGiradaMilis());
+    public void setJuegoNoIniciado(boolean juegoNoIniciado) {
+        this.juegoNoIniciado = juegoNoIniciado;
     }
 
-    /**
-     * Spinner
-     *
-     * @param parent
-     * @param view
-     * @param position
-     * @param id
-     */
+    /* Control spinners */
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         if (parent.getId() == R.id.spinnerTemas) {
